@@ -20,3 +20,5 @@ users = "/users"
 #Login Endpoint
 user_login = "/user/login"
 
+#Add a new user
+add_new_user = "/users/add"
