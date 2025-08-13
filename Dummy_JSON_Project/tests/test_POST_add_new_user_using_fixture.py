@@ -11,27 +11,22 @@ from Dummy_JSON_Project.helperFunction.addNewUsersHF import new_user_details_pay
 from Dummy_JSON_Project.helperFunction.usersHF import add_a_new_user #Import helper function
 
 
-"""Test case: Add a new user """
+"""Test case: 1. Add a new user, 2. Get user_id """
 
 # Add a new user
 @pytest.mark.tc1 #Add test marker
-def test_POST_add_new_user(): #Name function
-    create_new_user = new_user_details_payload() #Call new user payload helper function
-    headers = header_data_for_login() #Call header helper function
+def test_POST_add_new_user(POST_add_new_user_fixture): #Pass fixture as an argument
+    add_new_user_response, result_add_new_user_response =POST_add_new_user_fixture #assign return data to fixture
+    """in the fixture we need to add the data we are returning and assign it to the fixture"""
 
-    add_new_user_response = requests.post(add_a_new_user(),headers=headers,json=create_new_user) #Send request
-    result_add_new_user_response = add_new_user_response.json() #Get response back as json
-    pretty_print = json.dumps(result_add_new_user_response, indent=4) #Format json response
-    assert add_new_user_response.status_code == 201 #Assert status code
-    print(pretty_print, add_new_user_response.status_code) #Print response and status code
 
-    #Verify data in response back, first name
+    # Verify data in response back, first name
     """Assert name in firstname dictionary. As we know the name to expect, we can check the firstname field will 
     return the exact name we want"""
 
-    verify_data_in_response = result_add_new_user_response #Store response in a variable
-    assert verify_data_in_response["firstName"] == "Muhammad" #Assrt content matches what's in response
-    print(verify_data_in_response["firstName"]) #Print verified data
+    verify_data_in_response = result_add_new_user_response  # Store response in a variable
+    assert verify_data_in_response["firstName"] == "Muhammad"
+    print(verify_data_in_response["firstName"])  # Print verified data
 
 
     #Verify data in response back, last name
@@ -43,5 +38,8 @@ def test_POST_add_new_user(): #Name function
     print(verify_data_in_response["lastName"]) #Print verified data
 
 
+    """Get id of newly created user"""
 
-
+    user_id = result_add_new_user_response["id"] #Get user ID
+    assert user_id # Assert user ID
+    print(user_id) #Print user ID
